@@ -1,0 +1,85 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+
+def main():
+    flag = False
+    p = None
+    l = None
+    t = None
+    P3K = np.array([
+        [
+            #tingkat 1
+            ["paracetamol", "betadine", "obat alergi", "tabung oksigen", "kompas", "naproxen", "indometasin", "diklofenak", "ketoprofen", "meloxicam"],
+            ["oralit", "gel lidah buaya", "krim kulit", "alat pengangkat", "alat pemotong logam", "asam mefenamat", "piroxicam", "krim kulit", "abacavir", "acarbose"],
+            ["pereda nyeri", "pereda flu", "instro", "gps", "acetosal", "acitretin", "baclofen", "bacitracin", "benazeprin", "bisolvon"]
+        ],
+        [
+            #tingkat 2
+            ["salep luka", "promag", "kain kasa", "derek", "alat perekat", "biotin", "bodrex", "botox", "boron", "calamine"],
+            ["sarung tangan", "perban", "antiseptik", "jaring pengaman", "helm", "canesten", "cefazolin", "cefprozil", "cinnarizine", "cisplatin"],
+            ["gunting", "pinset", "termometer", "vest pelindung", "ibuprofen", "citicolin", "ctm", "combatrin", "clarithromycin", "clobazam"]
+        ],
+        [
+            #tingkat 3
+            ["senter", "peniti", "balsem", "ranitidin", "omeprazole", "danazol", "decolgen", "dapsone", "daun ungu", "degirol"],
+            ["lotion anti alergi", "bola kapas", "tisu", "cetirizine", "dexamethasone", "desonide", "diuretik", "diapet", "enervon c", "entrostop"],
+            ["hidrogen peroksida", "kompres", "stetoskop", "metformin", "aspirin", "entecavir", "esmolol", "estriol", "estrogen", "etodolac"]
+        ],
+        [
+            #tingkat 4
+            ["penyedot debu", "kit kaca", "masker", "simvastatin", "metronidazole", "exenatide", "etanercept", "etoposide", "famotidine", "feminax"],
+            ["gergaji", "palang pintu", "kacamata pelindung", "amoxicillin", "lansoprazole", "felodipine", "farsifen", "fibrat", "folavit", "formalin"],
+            ["tensimeter", "fire extinguisher", "fire blanket", "diphenhydramine", "loratadine", "fucoidan", "fungiderm", "gliserol", "glukagon", "sanmol"]
+        ],
+        [
+            #tingkat 5
+            ["ponsel", "komunikasi radio", "segitiga peringatan", "propranolol", "diclofenac", "xanax", "kalium", "teofilin", "strepsils", "ketamine"],
+            ["kerucut jalan", "tandu", "bendera isyarat", "polycrol", "cazetin", "komix", "imodium", "vics balsem", "minyak kayu putih", "tempra"],
+            ["selimut", "lampu isyarat", "defibrilator", "nystatin", "noprenia", "rispeldal", "tacrine", "zinc sulphate", "warfarin", "sotalol", "senna"]
+        ]
+    ])
+    searched_item = input("Masukkan barang yang ingin dicari: ")
+    searched_item = searched_item.lower()
+    for panjang in range (5):
+        for lebar in range (3):
+            for tinggi in range (10):
+                if searched_item == P3K[panjang][lebar][tinggi]:
+                    flag = True
+                    p = panjang + 1
+                    l = lebar + 1
+                    t = tinggi + 1
+                    break   
+             
+    if(flag):
+        print(searched_item,f" Ditemukan di kolom ke {p} , baris ke {l}, tingkat ke {t}")
+    else:
+        print(searched_item,"Barang tidak ditemukan")
+    
+    # Create a figure and an axes object
+    fig = plt.figure()
+    ax = plt.axes(projection="3d")
+
+    # Create a meshgrid for the x, y, and z coordinates
+    x, y, z = np.meshgrid(np.arange(5), np.arange(3), np.arange(10))
+
+    # Flatten the array and extract the labels
+    labels = P3K.flatten()
+
+    # Plot the labels as scatter points at the corresponding x, y, and z coordinates
+    ax.scatter(y.flatten(), x.flatten(), z.flatten(), c='green', s=500)
+    for n, label in enumerate(labels):
+        ax.text(y.flatten()[n], x.flatten()[n], z.flatten()[n], label, ha='center', va='center')
+
+    # Set the axis labels and limits
+    ax.set_xlabel('Kolom')
+    ax.set_ylabel('Baris')
+    ax.set_zlabel('Tingkat')
+    ax.set_xlim (0, 2)
+    ax.set_ylim(0, 4)
+    ax.set_zlim(0, 9)
+
+    # Show the plot
+    plt.show()
+if __name__ == "__main__":
+    main()
